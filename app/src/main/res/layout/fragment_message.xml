@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.message.MessageFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:id="@+id/messenger_header"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/messenger_name_chat"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="8pt"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/messenger_date"
+            android:layout_below="@+id/messenger_header"
+            android:layout_centerHorizontal="true"
+            android:textSize="8pt"
+            android:textStyle="bold|italic"
+            android:translationZ="1dp"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <!--android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/messenger_swipe"
+            ></android.support.v4.widget.SwipeRefreshLayout-->
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spisok"
+            android:layout_margin="@dimen/padding_external"
+            android:layout_above="@+id/messenger_write"
+            android:layout_below="@+id/messenger_header"
+            android:dividerHeight="0px"
+            android:divider="@color/white">
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/messenger_write"
+            android:layout_above="@+id/messenger_footer">
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/messenger_footer"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/edit_message"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
+                android:textSize="11pt"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/attach_file"
+                android:background="@color/colorPrimary"
+                android:layout_weight="3"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/sound_message"
+                android:visibility="gone"
+                android:background="@color/colorPrimary"
+                android:layout_weight="3"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp" />
+
+            <ImageButton
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/send_message"
+                android:src="@android:drawable/ic_menu_send"
+                android:background="@color/colorPrimary"
+                android:layout_weight="5"
+                android:paddingRight="10dp"
+                android:paddingLeft="5dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

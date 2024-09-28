@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_rect"
+    android:id="@+id/chat_root"
+    android:padding="5dp"
+    android:textAlignment="center"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0"
+        android:padding="4dp">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/chat_name"
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_author"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_copyright"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_alarm_container"
+                android:visibility="invisible"
+                android:layout_marginRight="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chat_alarm"
+                    app:srcCompat="@mipmap/ic_alarm"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chat_count_delivered"
+                    android:textSize="7pt"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0"
+        android:padding="4dp">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/chat_message_author"
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:textStyle="italic" />
+            <TextView
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:id="@+id/chat_message_message"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingRight="10dp"
+                android:layout_weight="0.1" />
+            <TextView
+                android:textSize="6pt"
+                android:textColor="@color/white"
+                android:textStyle="italic"
+                android:id="@+id/chat_message_date" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".ui.user.AboutUserFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Your profile"
+            android:textSize="@dimen/font_header"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_avatar_default"
+            android:layout_marginTop="15dp"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_login"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:layout_weight="9" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_alias"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_alias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:layout_weight="9" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_email"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="9" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_password"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="9" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_create"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_created"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:layout_weight="9" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_update"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/user_updated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_default"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="9" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</FrameLayout>

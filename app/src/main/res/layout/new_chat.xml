@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp" >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_panel">
+        <TableRow>
+            <EditText
+                android:id="@+id/search_login"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Логин"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/search_familiya"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Фамилия"
+                android:layout_weight="15"
+                />
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/search_name"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Имя"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/search_otchestvo"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Отчество"
+                android:layout_weight="15"
+                />
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/search_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Номер телефона"
+                android:layout_weight="1"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@android:drawable/ic_menu_search"
+                android:id="@+id/search_user"
+                />
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/chat_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"
+                android:hint="Название нового чата"
+                android:layout_weight="1"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/create_chat"
+                app:srcCompat="@android:drawable/ic_media_play"
+                />
+        </TableRow>
+    </TableLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_panel"
+        android:id="@+id/spisok"
+        >
+    </ListView>
+
+</RelativeLayout>

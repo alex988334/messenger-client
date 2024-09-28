@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAlignment="center"
+    android:clipToPadding="false"
+    android:maxWidth="200dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/message_background"
+        android:background="@drawable/my_rect"
+        android:padding="10dp"
+        android:elevation="2dp"
+        android:translationZ="1dp"
+        android:layout_margin="4dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/message_parent_container"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_parent_user"
+                android:maxWidth="200dp"
+                android:textStyle="bold"
+                android:textSize="6pt" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_parent_text"
+                android:maxWidth="200dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingLeft="4dp"
+                android:textStyle="italic|bold"
+                android:textSize="6pt" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/message_parent_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="8pt"
+            android:text="Юзер1"
+            android:id="@+id/message_author"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_below ="@+id/message_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:textSize="8pt"
+            android:text="Новое сообщение юзера"
+            android:textColor="@color/white"
+            android:id="@+id/message_text"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_image_container"
+            android:maxWidth="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below ="@+id/message_text" />
+
+        <TextView
+            android:layout_below ="@+id/message_image_container"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="7pt"
+            android:textColor="@color/white"
+            android:text="06:11:22"
+            android:id="@+id/message_time" />
+
+        <ImageView
+            android:id="@+id/message_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_image_container"
+            android:layout_toRightOf="@+id/message_time"
+            android:paddingLeft="10dp"
+            app:srcCompat="@drawable/ic_status_send" />
+    </RelativeLayout>
+
+</RelativeLayout>
