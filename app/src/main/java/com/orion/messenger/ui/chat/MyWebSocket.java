@@ -27,27 +27,33 @@ public class MyWebSocket extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        Log.d(ConstWSThread.LOG_TAG, "WebSocket open connection!");
+        Log.d(ConstWSThread.LOG_TAG, "WebSocket -> CONNECTED!");
         wsHandler.onConnectedServer();
         connected = true;
     }
 
     @Override
-    public void onMessage(String message) {                                                     //  обрабатывает входящее сообщение
-        Log.d(ConstWSThread.LOG_TAG, "MyWebSocket! RESPONSE FROM ORION => " + message);
+    public void onMessage(String message) {
+
         Type type = new TypeToken<ResponseServer>(){}.getType();
-        wsHandler.newResponse(new Gson().fromJson(message, type));
+        ResponseServer r = new Gson().fromJson(message, type);
+
+        Log.d("", "MyWebSocket RESPONSE! "
+                + StatusRequest.getDescriptionOperation(r.Status.Operation) + " " +
+                StatusRequest.getDescriptionStatus(r.Status.Status)+ " -> " +  message);
+        wsHandler.newResponse(r);
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {                              //  отрабатывает когда соединение закрыто
-        Log.d(ConstWSThread.LOG_TAG, "WS СОЕДИНЕНИЕ ЗАКРЫТО");
+        Log.d(ConstWSThread.LOG_TAG, "WebSocket -> DISCONNECTED!");
         connected = false;
     }
 
     @Override
-    public void onError(Exception ex) {                                                         //  отрабатывает когда происходит ошибка в работе
-        Log.d(ConstWSThread.LOG_TAG, "ERROR WS 6676516: " + ex.getMessage() + ", " + ex.getLocalizedMessage() + ", " + ex.getStackTrace().toString());
+    public void onError(Exception ex) {
+        Log.d(ConstWSThread.LOG_TAG, "ERROR WebSocket: !"  + ex.getMessage() + ", "
+                + ex.getLocalizedMessage() + ", " + ex.getStackTrace().toString());
         connected = false;
     }
 

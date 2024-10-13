@@ -22,7 +22,6 @@
             android:orientation="horizontal"
             android:id="@+id/message_parent_container"
             android:visibility="gone">
-            <!--android:visibility="gone"-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +56,6 @@
             android:layout_height="wrap_content"
             android:textSize="8pt"
             android:maxWidth="200dp"
-            android:text="Hello Mad Max!"
             android:textColor="@color/white"
             android:id="@+id/message_text" />
         <ImageView
@@ -75,7 +73,16 @@
             android:textStyle="italic"
             android:textSize="7pt"
             android:textColor="@color/white"
-            android:text="11:22"
-            android:id="@+id/message_time" />
+            android:id="@+id/message_time"/>
+        <TextView
+            android:layout_below ="@+id/message_image_container"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="7pt"
+            android:textColor="@color/white"
+            android:id="@+id/message_date"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

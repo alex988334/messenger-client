@@ -23,4 +23,18 @@ public class MessageStatus extends Model {
         return "{\"MessageId\":"+MessageId+",\"UserId\":"+UserId+",\"Status\":\""+Status
                 +"\",\"Date\":\""+Date+"\",\"Time\":\""+Time+"\"," + super.toString() + "}";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof MessageStatus)) {
+            return false;
+        }
+
+        MessageStatus m = (MessageStatus) object;
+        if (MessageId != 0 && UserId != 0 && m.MessageId == MessageId && m.UserId == UserId) {
+            return true;
+        }
+
+        return false;
+    }
 }

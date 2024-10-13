@@ -5,30 +5,37 @@
     <string name="nav_header_title">Orion Messenger</string>
     <string name="nav_header_subtitle">orion734.ru</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="action_list_users">List users</string>
+    <string name="action_add_user">Append user</string>
+    <string name="action_remove_chat">Remove chat</string>
 
     <string name="menu_chat">Chats</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about_user">About user</string>
     <string name="menu_registry_user">Registration</string>
     <string name="menu_autorization">Autorization</string>
+    <string name="menu_about_project">About project</string>
 
     <string name="user_login">Login:</string>
-    <string name="user_alias">Alias:</string>
+    <string name="user_alias">Nickname:</string>
     <string name="user_email">Email:</string>
     <string name="user_password">Password:</string>
     <string name="user_create">Created:</string>
     <string name="user_update">Updated:</string>
 
-    <string name="registr_title">Registration new user</string>
+    <string name="about_user_title">YOUR PROFILE</string>
+    <string name="about_project_title">ABOUT PROJECT</string>
+
+    <string name="registr_title">NEW USER</string>
     <string name="registr_login">Login:</string>
-    <string name="registr_alias">Alias:</string>
+    <string name="registr_alias">Nickname:</string>
     <string name="registr_email">Email:</string>
     <string name="registr_password">Password:</string>
     <string name="registr_password1">Repeat password:</string>
     <string name="registr_send">Send data</string>
 
-    <string name="autorizate_title">Autorization</string>
+    <string name="autorizate_title">AUTORIZATION</string>
     <string name="autorizate_login">Login</string>
     <string name="autorizate_password">Password</string>
     <string name="autorizate_send">Send data</string>
@@ -38,4 +45,14 @@
 
     <string name="create_chat_title">Create new chat</string>
     <string name="create_chat_name">Chat name:</string>
+
+    <string name="list_users_title">LIST USERS</string>
+    <string name="list_users_remove_user">Remove user</string>
+    <string name="list_users_leave_chat">Leave chat</string>
+
+    <string name="append_user_title">APPEND USER</string>
+    <string name="append_user_alias">User alias</string>
+    <string name="append_user_phone">User phone</string>
+    <string name="search_user">Search user</string>
+    <string name="append_user">Append user</string>
 </resources>

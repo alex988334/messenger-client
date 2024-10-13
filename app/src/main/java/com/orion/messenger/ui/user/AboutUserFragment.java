@@ -15,29 +15,30 @@ import com.orion.messenger.databinding.FragmentAboutUserBinding;
 
 public class AboutUserFragment extends Fragment {
 
+    public static final int ID = 4;
+
     private FragmentAboutUserBinding binding;
+    private AboutUserViewModel model;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //super.onCreateView(inflater, container, savedInstanceState);
+       // super.onCreateView(inflater, container, savedInstanceState);
 
-        AboutUserViewModel model = new ViewModelProvider(this).get(AboutUserViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(AboutUserViewModel.class);
 
         binding = FragmentAboutUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        binding.userCreated.setText(model.userCreatedAt.getValue());
-        binding.userUpdated.setText(model.userUpdatedAt.getValue());
-        binding.userLogin.setText(model.userLogin.getValue());
-        binding.userAlias.setText(model.userAlias.getValue());
-        binding.userEmail.setText(model.userEmail.getValue());
-        binding.userPassword.setText(model.userPassword.getValue());
+        binding.created.setText(model.getCreatedAt());
+        binding.updated.setText(model.getUpdatedAt());
+        binding.login.setText(model.getLogin());
+        binding.alias.setText(model.getAlias());
+        binding.email.setText(model.getEmail());
+        binding.password.setText(model.getPassword());
         return root;
     }
-
-
 
     @Override
     public void onDestroyView() {

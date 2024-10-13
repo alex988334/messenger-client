@@ -7,17 +7,40 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#7C7C7C</color>
-
-
-    <color name="colorPrimary">#93543b</color>
-    <color name="colorPrimaryDark">#642d0b</color>
     <color name="colorAccent">#000000</color>
 
-    <!--color name="grey">#c4c4c4</color-->
+
+    <color name="grey5">#A2A2A2</color>
+    <color name="grey4">#7E7E7E</color>
+    <color name="grey3">#5F5F5F</color>
+    <color name="grey2">#454545</color>
+    <color name="grey1">#2E2E2E</color>
+
+    <color name="colorPrimary10">#A49695</color>
+    <color name="colorPrimary9">#957673</color>
+    <color name="colorPrimary8">#8C635A</color>
+    <color name="colorPrimary7">#875147</color>
+    <color name="colorPrimary6">#7A4133</color>
+    <color name="colorPrimary5">#642C1E</color>
+    <color name="colorPrimary4">#592413</color>
+    <color name="colorPrimary3">#4B1C0A</color>
+    <color name="colorPrimary2">#3A1404</color>
+    <color name="colorPrimary1">#2E1001</color>
+
     <color name="blue">#aedce6</color>
-    <color name="green">#b7f494</color>
-    <!--color name="white">#ffffff</color-->
-    <color name="button">#505050</color>
-    <color name="orange">#e9823e</color>
+
+    <color name="green5">#9ABD8A</color>
+    <color name="green4">#699757</color>
+    <color name="green3">#3E7127</color>
+    <color name="green2">#2B5F11</color>
+    <color name="green1">#143300</color>
+
+    <color name="orange7">#F4B284</color>
+    <color name="orange6">#F6A56B</color>
+    <color name="orange5">#F09753</color>
+    <color name="orange4">#F28B43</color>
+    <color name="orange3">#F68533</color>
+    <color name="orange2">#FB781A</color>
+    <color name="orange1">#FF6A00</color>
+
 </resources>

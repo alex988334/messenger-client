@@ -52,7 +52,6 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="8pt"
-            android:text="Юзер1"
             android:id="@+id/message_author"
             android:visibility="gone"/>
         <TextView
@@ -61,7 +60,6 @@
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
             android:textSize="8pt"
-            android:text="Новое сообщение юзера"
             android:textColor="@color/white"
             android:id="@+id/message_text"/>
 
@@ -81,8 +79,17 @@
             android:textStyle="italic"
             android:textSize="7pt"
             android:textColor="@color/white"
-            android:text="06:11:22"
             android:id="@+id/message_time" />
+        <TextView
+            android:layout_below ="@+id/message_image_container"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="7pt"
+            android:textColor="@color/white"
+            android:id="@+id/message_date"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/message_status"

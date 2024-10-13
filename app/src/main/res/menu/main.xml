@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_"
+        android:id="@+id/action_list_users"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_list_users"
+        app:showAsAction="always" />
+    <!--item
+        android:id="@+id/action_add_user"
+        android:orderInCategory="100"
+        android:title="@string/action_add_user"
+        app:showAsAction="never" /-->
+    <item
+        android:id="@+id/action_remove_chat"
+        android:orderInCategory="100"
+        android:title="@string/action_remove_chat"
         app:showAsAction="never" />
 </menu>

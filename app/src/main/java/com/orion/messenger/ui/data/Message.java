@@ -21,4 +21,18 @@ public class Message extends Model {
                 +",\"Message\":\""+Message+"\",\"FileUrl\":\""+FileUrl+"\",\"Date\":\""+Date
                 +"\",\"Time\":\""+Time+"\"," + super.toString() + "}";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Message)) {
+            return false;
+        }
+
+        Message m = (Message) object;
+        if (Id != 0 && m.Id == Id) {
+            return true;
+        }
+
+        return false;
+    }
 }

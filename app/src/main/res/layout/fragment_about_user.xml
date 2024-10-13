@@ -3,29 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/grey1"
     tools:context=".ui.user.AboutUserFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingVertical="@dimen/padding_external"
+        android:layout_margin="@dimen/padding_external">
 
-        <TextView
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Your profile"
-            android:textSize="@dimen/font_header"
+            android:layout_margin="@dimen/padding_external"
+            android:padding="@dimen/padding_external"
+            android:text="@string/about_user_title"
+            android:textSize="@dimen/font_sub_header"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"/-->
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_avatar_default"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="@dimen/padding_external"
+            android:layout_gravity="center" />
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,11 +45,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_login"
+                    android:id="@+id/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:layout_marginTop="5dp"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:textColor="@color/white"
                     android:layout_weight="9" />
             </TableRow>
@@ -58,11 +65,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_alias"
+                    android:id="@+id/alias"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:layout_marginTop="5dp"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:textColor="@color/white"
                     android:layout_weight="9" />
             </TableRow>
@@ -76,11 +85,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_email"
+                    android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:textColor="@color/white"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:layout_marginTop="5dp"
                     android:layout_weight="9" />
             </TableRow>
@@ -94,11 +105,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_password"
+                    android:id="@+id/password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:textColor="@color/white"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:layout_marginTop="5dp"
                     android:layout_weight="9" />
             </TableRow>
@@ -112,11 +125,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_created"
+                    android:id="@+id/created"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:layout_marginTop="5dp"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:textColor="@color/white"
                     android:layout_weight="9" />
             </TableRow>
@@ -130,11 +145,13 @@
                     android:textColor="@color/white"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/user_updated"
+                    android:id="@+id/updated"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_default"
                     android:textColor="@color/white"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_left"
                     android:layout_marginTop="5dp"
                     android:layout_weight="9" />
             </TableRow>

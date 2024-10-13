@@ -1,30 +1,68 @@
 package com.orion.messenger.ui.chat;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.orion.messenger.MainActivity;
-import com.orion.messenger.ui.data.Model;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.MediaType;
+
 
 //  класс является оберткой нижнего уровня для работы с WS сервером
 public class WSThread extends Thread {
+
+    public static final String RESPONSE_KEY_STATUS = "status";
+    public static final String RESPONSE_KEY_FILES = "files";
+    public static final String RESPONSE_KEY_FILE_NAME = "file_name";
+    public static final String RESPONSE_KEY_OPERATION = "operation";
+
+    public static final int RESPONSE_OPERATION_SAVE = 1;
+    public static final int RESPONSE_OPERATION_GET = 2;
 
     public static WSThread wsThread;
 
     private IBufferWS dataBuf;
     private MyWebSocket server = null;
 
+    private Runnable callbackOnOpenConnection;
+    private Runnable callbackOnFileUpload;
     boolean stop;
 
-    public WSThread(IBufferWS data){
+    public WSThread(IBufferWS data, Runnable callbackOnOpenConnection){
         super();
         this.dataBuf = data;
         WSThread.wsThread = this;
+        this.callbackOnOpenConnection = callbackOnOpenConnection;
+    }
+
+    public boolean isConnected(){
+        return server.isConnected();
     }
 
     public void StopWS() {
@@ -35,7 +73,7 @@ public class WSThread extends Thread {
     public void run() {
         super.run();
 
-    int interation = 0;
+        int interation = 0;
         stop = false;
         do {
             try {
@@ -54,7 +92,7 @@ public class WSThread extends Thread {
             }
 
             interation++;
-           Log.e(ConstWSThread.LOG_TAG,"INteration WSThread => " + interation);
+        //   Log.e(ConstWSThread.LOG_TAG,"INteration WSThread => " + interation);
         }while (!stop);
     }
 
@@ -65,277 +103,166 @@ public class WSThread extends Thread {
         }
 
         String msg = new Gson().toJson(data);
-        Log.d(ConstWSThread.LOG_TAG, "Sended data => " + msg);
         server.send(msg);
+        String st = data.get("Status");
+        Type type = new TypeToken<StatusRequest>(){}.getType();
+        StatusRequest s = new Gson().fromJson(st, type);
+
+        Log.d(ConstWSThread.LOG_TAG, "Sended data "
+                + StatusRequest.getDescriptionOperation(s.Operation) +" -> " + msg);
     }
 
     public void onConnectedServer() {
-        MainActivity.activvity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MainActivity.activvity.chat.onConnectedServer();
-            }
-        });
+
+        if (callbackOnOpenConnection != null) {
+            Log.d(ConstWSThread.LOG_TAG, "WSThread onConnectedServer()!");
+            callbackOnOpenConnection.run();
+        }
     }
 
     private void createWSServer() throws URISyntaxException {
         server = new MyWebSocket(
-                new URI(Config.WSS  + Config.DOMAIN  + ":" + Config.WS_PORT),
+                new URI(Config.WSS  + Config.DOMAIN  + ":" + Config.WS_PORT + "/" + Config.CHAT),
                 this);
     }
 
     private void runWSServer(){
         server.connect();
+
+        File f = dataBuf.getSendFile();
+        if (f == null) {
+            return;
+        }
+        if (f != null || !f.exists()) {
+            Log.e("", "ERROR WSThread! Not found file => " + f.getName()
+                    + "; path => " + f.getAbsolutePath());
+            return;
+        }
+
+       // Request r = createSendFileRequestBody(f);
+      //  saveAvatar(r.mapParams, r.body);
+    }
+
+
+
+    private void saveAvatar(File file) {
+
+     /*   Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Config.HTTPS + Config.DOMAIN + "/" + Config.AVATAR)
+                .addConverterFactory(GsonConverterFactory.create())
+                //                .client(okClient.build())
+                .build();
+
+     //   RequestBody size = RequestBody.create(String.valueOf(file.length()), MediaType.parse("text/plain"));
+        RequestBody contentType = RequestBody.create("application/pdf", MediaType.parse("text/plain"));
+
+        // Create a multipart request body part for the file
+        MultipartBody.Pa filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("application/pdf"), file));
+        // Make the API call
+        FileDownloadUpload getResponse = retrofit.create(FileDownloadUpload.class);
+
+        Call<Map<String, String>> call = getResponse.sendFile(filePart, contentType);
+
+// Asynchronously execute the API call
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                Log.e("Response", "response --: " + response.body());
+                //Toast.makeText()
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Toast.makeText(context, response.body().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    try {
+                        Log.i("onEmptyResponse", "Returned empty response");
+                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_LONG).show();
+                    } catch (Exception e ) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                Log.e("failure", "message = " + t.getMessage());
+                Log.d("failure", "cause = " + t.getCause());
+                Toast.makeText(context,t.getMessage(),Toast.LENGTH_LONG).show();
+
+
+            }
+        });
+
+       /* WSThread t = this;
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Config.HTTPS + Config.DOMAIN + "/" + Config.AVATAR)
+                .addConverterFactory(GsonConverterFactory.create())
+                //                .client(okClient.build())
+                .build();
+
+        final FileDownloadUpload client = retrofit.create(FileDownloadUpload.class);
+
+        client.sendFile(map, body).enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call,
+                                   Response<Map<String, String>> response) {
+
+                if (response.code() == 200 && response.body() != null) {
+                    if (Integer.parseInt(response.body().get(RESPONSE_KEY_STATUS)
+                            .get(0).get(RESPONSE_KEY_STATUS)) == 1) {
+
+                        Map<String, String> map = response.body().get(RESPONSE_KEY_FILES).get(0);
+                        String fileName = map.get(RESPONSE_KEY_FILE_NAME);
+                        Log.d("GRADINAS", "Загрузка -> успех, file_name => " + fileName);
+
+                        t.callbackOnFileUpload.run();
+                    } else {
+                        Log.d("GRADINAS", "200 MESSAGE => " + response.body().toString());
+                    }
+                } else {
+                    Log.d("GRADINAS", "!=null MESSAGE => " + ", ERROR => " + response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                Log.d("GRADINAS", "EXCEPTION24242421244 => " + t.toString());
+            }
+        });*/
+    }
+
+    class Request {
+
+        public LinkedHashMap<String, okhttp3.RequestBody> mapParams;
+        public MultipartBody.Part body;
+
+        public Request(LinkedHashMap<String, okhttp3.RequestBody> mapParams, MultipartBody.Part body){
+            this.mapParams = mapParams;
+            this.body = body;
+        }
+    }
+
+    private Request createSendFileRequestBody(File file){
+
+        RequestBody rb = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData(RESPONSE_KEY_FILE_NAME, file.getName(), rb);
+
+        LinkedHashMap<String, RequestBody> mp = new LinkedHashMap<>();
+        rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(RESPONSE_OPERATION_SAVE));
+        mp.put(RESPONSE_KEY_OPERATION, rb);
+        Log.d("", "SEND AVATAR map => " + mp.toString());
+
+        return new Request(mp, body);
     }
 
     public void newResponse(ResponseServer responseServer) {
         dataBuf.addResponseData(responseServer);
     }
 
-    //  подготовка строки сообщения о том что пользователь печатает новое сообщение
- /*   public void userWrite(boolean write){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_MESSAGES) return;                            //  проверяем тип операции
-        String msg = "";                                                                            //  создаем ссылку на строку сообщения
-        if (write){                                                                                 //  если пользователь печатает
-            msg = "{\"action\":"+ ConstWSThread.OP_WRITEN +", \"id_chat\":" + chat.chatNumber + ", \"write\":true}";
-        } else {                                                                                    //  если пользователь окончил печатать
-            msg = "{\"action\":"+ ConstWSThread.OP_WRITEN +", \"id_chat\":" + chat.chatNumber + ", \"write\":false}";
-        }
-        wsSend(msg);                                                                                //  перенаправляем с метод отправки
-    }*/
-
- /*   //  отвечаете за отправку служебного сообщения менеджеру о действиях мастера
-    public void sendManager(int status, int id){
-
-        String msg = "{\"action\":" + ConstWSThread.OP_SYSTEM + ", \"status\":" + status + ", \"id\":" + id + "}";
-        wsSend(msg);
-    }*/
-
-    //  осуществляет отправку и нормализацию сообщения в логах
-  /*  private void wsSend(String msg){
-
-        if (server != null && server.isOpen()) {                                                    //  проверяем соединение с сервером
-            String clone1 = new String(msg);                                                        //  клонируем строку, на сервер уйдет нетронутый вариант
-            int index = clone1.lastIndexOf("action");                                           //  ищем индекс первого вхождения строки, которая указывает тип операции
-            if (index != -1) {                                                                      //  проверяем что вхождение найдено
-                int number = Integer.parseInt(clone1.substring(index + 8, index + 11));             //  парсим трех значный код операции из строки
-                String clone2 = clone1.substring(index + 11, clone1.length());                      //  получаем вторую часть сообщения после кода операции
-                clone1 = clone1.substring(0, index + 8);                                            //  получаем первую часть сообщения до номера операции
-                clone1 = clone1 + ConstWSThread.getString(number) + clone2;                         //  сливаем части, встраивая текстовое представление кода операции
-                Log.d("GRADINAS", "WS: SEND MESSAGE => " + clone1);                       //    печатаем сообщение в лог
-            } else {
-                Log.d("GRADINAS", "WS: SEND MESSAGE => " + msg);                          //    если вхождение не было найдено, то печатаем оригинал сообщения
-            }
-
-            server.send(msg);                                                                       //  отправляем сообщение на сервер
-        }
+    public void setCallbackOnOpenConnection(Runnable runnable){
+        this.callbackOnOpenConnection = runnable;
     }
-
-    //  запрашивает список чатов
-    public void getChats(){
-
-        if (server == null) {                                                                       //  проверяем, что сервер не  пуст
-            Log.d(wer, "ERROR 65645426: WS сервер не создан");
-            return;
-        }
-
-        String msg = "{\"action\":"+ ConstWSThread.OP_GET_CHATS +"}";                               //  создаем строку сообщения
-        if (server.isOpen()) {                                                                      //  проверяем что соединение открыто
-            wsSend(msg);                                                                            //  отправляем
-        } else {
-            Log.d(wer, "ИСХОДЯЩЕЕ ОТЛОЖЕННОЕ СООБЩЕНИЕ => " + msg);
-            addDefferedMessages(msg);                                                               //  или если соединения нет, то помещаем сообщение в отложенные
-        }
-    }
-
-    //  запрашивает список сообщений для чата, на указанную или последнюю дату
-    public void getMessages(String date){
-
-        int id = chat.getChatNumber();                                                              //  копируем номер чата
-        if (id <= 0) {                                                                              //  проверяем на допустимость
-            Log.d(wer, "ERROR 6512623: GET MESSAGES ERROR => chatNumber = 0");
-            return;
-        }
-        String msg = "{\"action\":"+ ConstWSThread.OP_GET_HISTORY_MESSAGE +", \"id\":\"" + id
-                + "\", ";                                                                           //  создаем строку сообщения
-        if (date != null) msg += "\"date\":\"" + date + "\", \"loadingData\":\"" + true + "\"}";    //  если дата указана, то добавляем ее и выставляем флаг подгрузочного сообщения
-        else msg += "\"loadingData\":\"" + false + "\"}";                                           //  если даты нет, то придут сообщения на последнюю доступную дату
-
-        if (server.isOpen()) {                                                                      //  проверяем соединение с сервером
-            wsSend(msg);                                                                            //  отправляем
-        } else {
-            Log.d(wer, "ИСХОДЯЩЕЕ ОТЛОЖЕННОЕ СООБЩЕНИЕ => " + msg);
-            addDefferedMessages(msg);                                                               //  иначе помещаем в отложенные сообщения
-        }
-    }
-
-    //  отправляет статус сообщения для данного пользователя
-    public void sendStatus(int idChat, int idMessage, String status){
-
-        String msg = "{\"action\":"+ ConstWSThread.OP_STATUS_MESSAGE +", \"id_chat\":\"" + idChat
-                + "\", \"id\":\"" + idMessage + "\", \"status\":\"" + status + "\"}";
-        wsSend(msg);
-    }
-
-    //  класс используется временный шаблон сообщения
-    class SearchData {
-        public int action;                                                                          //  тип операции
-        public Map<String, String> search;                                                          //  набор параметров операции
-    }
-    //  производит запрос поиска пользователей по указанным параметрам
-    public void searchUser(Map<String, String> data){
-
-        if (data.size() == 0) return;                                                               //  проверяем что параметры заданы
-        SearchData searchData = new SearchData();                                                   //  создаем класс обертку
-        searchData.action = ConstWSThread.OP_SEARCH_USER;                                           //  указываем тип операции
-        searchData.search = data;                                                                   //  добавляем данные
-        Gson gson = new Gson();                                                                     //  создаем JSON конвертер
-        String msg = gson.toJson(searchData);                                                       //  конвертируем объект в строку
-
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  запрашивает список пользователей чата
-    public void getChatUsers(){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_MESSAGES
-                & chat.head.getOperation() != ConstHead.CHAT_USERS
-                & chat.head.getOperation() != ConstHead.CHAT_BLACK_LIST
-                & chat.head.getOperation() != ConstHead.CHAT_SEARCH_USER) return;                   //  проверяем тип операции
-        if (chat.chatNumber <= 0) {                                                                 //  проверяем номер чата
-            Log.d(wer, "ERROR 15578513: GET CHAT USERS ERROR => chatNumber = 0");
-            return;
-        }
-        String msg = "{\"action\":"+ ConstWSThread.OP_LIST_USERS +", \"id\":\"" + chat.chatNumber + "\"}";
-        //  создаем строку сообщения
-        if (server.isOpen()) {                                                                      //  проверяем соединение
-            wsSend(msg);                                                                            //  отправляем
-        } else {
-            Log.d(wer, "ИСХОДЯЩЕЕ ОТЛОЖЕННОЕ СООБЩЕНИЕ => " + msg);
-            addDefferedMessages(msg);                                                               //  если соединение отсутствует, то помещаем в отложенные сообщения
-        }
-    }
-
-    //  запрос черного списка
-    public void getBlackList(){
-
-        if (chat.head.getOperation() != ConstHead.CHATS
-                & chat.head.getOperation() != ConstHead.CHAT_MESSAGES
-                & chat.head.getOperation() != ConstHead.CHAT_USERS
-                & chat.head.getOperation() != ConstHead.CHAT_BLACK_LIST) return;                    //  проверяем тип операции
-        String msg = "{\"action\":" + ConstWSThread.OP_BLACK_LIST_USERS + "}";                      //  генерируем сообщение
-        if (server.isOpen()) {                                                                      //  проверяем соединение
-            wsSend(msg);                                                                            //  отправляем
-        } else {
-            Log.d(wer, "ИСХОДЯЩЕЕ ОТЛОЖЕННОЕ СООБЩЕНИЕ => " + msg);
-            addDefferedMessages(msg);                                                               //  помещаем в отложенные
-        }
-    }
-
-    //  осуществляет выход из чата
-    public void exitChat(){
-
-        if (chat.chatNumber != 0 & chat.head.getOperation() != ConstHead.CHAT_MESSAGES
-                & chat.head.getOperation() != ConstHead.CHAT_USERS
-                & chat.head.getOperation() != ConstHead.CHAT_BLACK_LIST) return;                    //  проверяем тип операции
-        String msg = "{\"action\":"+ ConstWSThread.OP_EXIT_CHAT +", \"id\":\"" + chat.chatNumber + "\"}";
-        //  создаем сообщение
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  осуществляет блокирование пользоваелей, в коллекции находятся номера пользователей в строковом виде
-    public void blockUser(ArrayList<String> users){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_USERS) return;                               //  проверяем тип операции
-        String msg = "{\"action\":"+ ConstWSThread.OP_BLOCK_USERS +", \"users\":"
-                + (new Gson()).toJson(users) + ", \"blackList\": \"false\" }";                      //  создаем сообщение, blackList указывает идет ли вызов из представления списка пользователей
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  разблокирование пользователей, в коллекции находятся номера пользователей в строковом виде
-    public void unlockUser(ArrayList<String> users){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_USERS
-                & chat.head.getOperation() != ConstHead.CHAT_BLACK_LIST) return;                    //  проверяем тип операции
-        boolean blackList = false;                                                                  //  флаг определяет из какого представления был осуществлен вызов (черный список или список пользователей)
-        if (chat.head.getOperation() == ConstHead.CHAT_BLACK_LIST) blackList = true;                //  проверяем что из черного списка
-
-        String msg = "{\"action\":"+ ConstWSThread.OP_UNLOOCK_USERS +", \"users\":"
-                + (new Gson()).toJson(users) + ", \"blackList\": \"" + String.valueOf(blackList) + "\" }";
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  удаляет пользователей из чата, в коллекции указаны номера поьзователей
-    public void removeUser(ArrayList<Integer> users){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_USERS || chat.chatNumber == 0) return;       //  проверяем тип операции
-        String msg = "{\"action\":"+ ConstWSThread.OP_REMOVE_USER +", \"id_chat\": \""
-                + chat.chatNumber + "\", \"users\":" + (new Gson()).toJson(users) + "}";            //  gson используем для конвертирования коллекции идентификаторов
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  удаляет чат
-    public void deleteChat(){
-
-        if (chat.head.getOperation() != ConstHead.CHAT_MESSAGES) return;                            //  проверяем тип операции
-        String msg = "{\"action\":"+ ConstWSThread.OP_REMOVE_CHAT +", \"id\":\"" + chat.chatNumber + "\"}";
-        wsSend(msg);
-    }
-
-    //  отправляет новое сообщение пользователя, где parentId - номер родительского сообщения, fileName - имя файла прилогающегося к сообщению
-    public void sendMessage(String msg, int idChat, Integer parentId, String fileName){
-
-        if (server != null && server.isOpen()) {                                                    //  проверяем соединение
-            String msg1 = "{\"action\":"+ ConstWSThread.OP_NEW_MESSAGE +", \"id_chat\":\""
-                    + idChat + "\", \"message\":\"" + msg + "\"";
-            if (fileName != null) msg1 += ", \"file\":\"" + fileName + "\"";                        //  если имя файла не пусто, то записываем в параметр
-            if (parentId != null) msg1 += ", \"parent_id\":" + parentId.intValue();                 //  если родительское сообщение указано, то записываем в параметр
-            msg1 += "}";
-            wsSend(msg1);                                                                           //  отправляем
-        }
-    }
-
-    //  вспомогательный класс для генерации тела сообщения
-    class AddUsers{
-        public int action = ConstWSThread.OP_ADD_USER;                                              //  тип операции
-        public String id_chat;                                                                      //  номер чата
-        public ArrayList<Integer> users;                                                            //  список идентификаторов добавляемых пользователей
-    }
-    //  осуществляет запрос добавления пользователей в чат, id - номер чата, users - коллекция идентификаторов пользователей
-    public void addUsersToChat(int id, ArrayList<Integer> users){
-
-        AddUsers data = new AddUsers();                                                             //  созаем новый вспомогательный объект
-        data.id_chat = String.valueOf(id);                                                          //  указываем номер чата
-        data.users = users;                                                                         //  указываем коллекцию идентификаторов
-        String msg = (new Gson()).toJson(data);                                                     //  конвертируем объект в строку json
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  вспомогательный класс для запроса создания нового чата
-    class NewChat {
-        public int action = ConstWSThread.OP_CREATE_NEW_CHAT;                                       //  тип операции
-        public String chat_name;                                                                    //  название нового чата
-        public ArrayList<Integer> users;                                                            //  коллекция идентификаторов пользователей чата
-    }
-    //  осуществляет запрос создания нового чата
-    public void createNewChat(String name, ArrayList<Integer> users){
-
-        NewChat data = new NewChat();                                                               //  создаем объект запроса
-        data.chat_name = name;                                                                      //  устанавливаем имя чата
-        data.users = users;                                                                         //  указываем коллекцию идентификаторов пользователей чата
-        String msg = (new Gson()).toJson(data);                                                     //  конвертируем объект в строку json
-        wsSend(msg);                                                                                //  отправляем
-    }
-
-    //  добавляет строку сообщения в очередь отложенных сообщений
-    public void addDefferedMessages(String msg){
-
-        messages.add(msg);
-    }
-
-    //  класс представляет собой  WS клиента
-*/
 }
 
 

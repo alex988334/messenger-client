@@ -5,21 +5,45 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.chat.ChatFragment"
-    android:background="@color/grey">
+    android:id="@+id/chat_fragment"
+    android:background="@color/grey1">
 
-    <ListView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/spisok"
-        android:padding="5dp">
-    </ListView>
+        android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/chat_refresh">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/spisok"
+                android:padding="@dimen/padding_external"
+                android:dividerHeight="4dp">
+            </ListView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <ImageButton
+            android:id="@+id/create_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/ic_android_black_64dp"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:layout_marginRight="@dimen/padding_external"
+            android:layout_marginBottom="@dimen/padding_external"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+        <!--android:background="@drawable/ic_android_black_64dp"-->
+    </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add" /-->
 </FrameLayout>

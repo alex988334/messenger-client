@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.user.AutorizateFragment"
-    android:background="@color/grey">
+    android:background="@color/grey1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,21 +12,26 @@
         android:layout_marginVertical="@dimen/padding_external"
         android:padding="@dimen/padding_external"
         android:orientation="vertical">
-        <TextView
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="@dimen/font_header"
+            android:textStyle="bold"
             android:text="@string/autorizate_title"
             android:layout_marginBottom="@dimen/padding_external"
-            android:textColor="@color/white" />
+            android:padding="@dimen/padding_external"
+            android:textColor="@color/white" /-->
         <EditText
             android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_external"
+            android:layout_marginTop="60dp"
             android:textSize="@dimen/font_default"
             android:hint="@string/autorizate_login"
+            android:padding="@dimen/padding_external"
+            android:background="@color/grey2"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"/>
         <EditText
             android:id="@+id/password"
@@ -35,11 +40,17 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_default"
             android:hint="@string/autorizate_password"
+            android:layout_marginTop="@dimen/padding_external"
+            android:padding="@dimen/padding_external"
+            android:background="@color/grey2"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:layout_marginBottom="@dimen/padding_external"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:layout_margin="@dimen/padding_external"
             android:background="@drawable/my_rect"
             android:textColor="@color/white"
             android:text="@string/autorizate_send"

@@ -23,9 +23,13 @@
     <dimen name="text_small_header">18dp</dimen>
     <dimen name="text_large_header">23dp</dimen>
 
+    <dimen name="text_tabulation">4sp</dimen>
     <dimen name="padding_external">10dp</dimen>
     <dimen name="padding_left">5dp</dimen>
     <dimen name="padding_right">5dp</dimen>
     <dimen name="padding_top">10dp</dimen>
     <dimen name="padding_bottom">10dp</dimen>
+
+    <dimen name="users_padding_horizintal">50dp</dimen>
+    <dimen name="users_padding_vertical">200dp</dimen>
 </resources>

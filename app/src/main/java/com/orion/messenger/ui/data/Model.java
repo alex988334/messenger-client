@@ -16,22 +16,22 @@ public class Model implements IModel {
     private String nameModel;
 
     @Override
-    public int GetOperation() {
+    public int getOperation() {
         return operation;
     }
 
     @Override
-    public void SetOperation(int operation) {
+    public void setOperation(int operation) {
         this.operation = operation;
     }
 
     @Override
-    public String NameModel() {
+    public String getNameModel() {
         return nameModel;
     }
 
     @Override
-    public void SetNameModel(String nameModel) {
+    public void setNameModel(String nameModel) {
         this.nameModel = nameModel;
     }
 

@@ -22,7 +22,6 @@ public class AdapterListChats extends BaseAdapter {
     public AdapterListChats(LayoutInflater inflater){
 
         response = new ResponseServer();
-        response.Chat = new Chat[]{};
         this.inflater = inflater;
     }
 
@@ -36,12 +35,12 @@ public class AdapterListChats extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return response.Chat.length;
+        return response.Chat.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return response.Chat[i];
+        return response.Chat.get(i);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class AdapterListChats extends BaseAdapter {
         LinearLayout viewIt = (LinearLayout)
                 inflater.inflate(R.layout.chat_item, viewGroup, false);
 
-        Chat chat = response.Chat[i];
+        Chat chat = response.Chat.get(i);
         viewIt.setTag(chat.Id);
 
         ((TextView) viewIt.findViewById(R.id.chat_name)).setText(chat.Name);

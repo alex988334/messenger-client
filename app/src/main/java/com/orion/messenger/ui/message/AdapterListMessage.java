@@ -1,5 +1,6 @@
 package com.orion.messenger.ui.message;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.orion.messenger.R;
 import com.orion.messenger.ui.chat.ConstWSThread;
 import com.orion.messenger.ui.chat.ResponseServer;
@@ -30,25 +32,33 @@ public class AdapterListMessage extends BaseAdapter {
     public AdapterListMessage(LayoutInflater inflater, int userId){
 
         response = new ResponseServer();
-        response.Message = new Message[]{};
         this.inflater = inflater;
         this.userId = userId;
     }
 
     @Override
     public int getCount() {
-        return response.Message.length;
+        return response.Message.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return response.Message[i];
+        return response.Message.get(i);
     }
 
     @Override
     public long getItemId(int i) {
         return i;
     }
+
+    public void setData(ResponseServer response){
+        //Log.e("", new Gson().toJson(response));
+        this.response = response;
+    }
+    public ResponseServer getResponse(){
+        return response;
+    }
+
 
     private String findUserAlias(int userId) {
 
@@ -61,14 +71,13 @@ public class AdapterListMessage extends BaseAdapter {
                 }
             }
         }
-
         return alias;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        Message message = response.Message[i];
+        Message message = response.Message.get(i);
         int idLayout = R.layout.message_item_right;
 
         boolean isAuthor = false;
@@ -81,15 +90,15 @@ public class AdapterListMessage extends BaseAdapter {
             mAuthor = findUserAlias(message.Author);
         }
 
-        if (isAuthor && response.MessageStatus.length > 0) {
+        if (isAuthor && response.MessageStatus != null) {
             String status = null;
             for (MessageStatus ms: response.MessageStatus) {
                 if (ms.MessageId == message.Id) {
                     if (status == null) {
                         status = ms.Status;
-                        continue;
+                    //    continue;
                     }
-                    if (ms.Status.equals(MessageStatus.MESSAGE_SENDED)) {
+                    if (ms.Status.equals(MessageStatus.MESSAGE_CREATED)) {
                        status = ms.Status;
                        mStatus = R.drawable.ic_status_send;
                     }
@@ -99,7 +108,7 @@ public class AdapterListMessage extends BaseAdapter {
                         mStatus = R.drawable.ic_status_delivered;
                     }
                     if (ms.Status.equals(MessageStatus.MESSAGE_READED) &&
-                            !status.equals(MessageStatus.MESSAGE_SENDED) &&
+                            !status.equals(MessageStatus.MESSAGE_CREATED) &&
                             !status.equals(MessageStatus.MESSAGE_DELIVERED)) {
                         status = ms.Status;
                         mStatus = R.drawable.ic_status_readed;
@@ -115,13 +124,16 @@ public class AdapterListMessage extends BaseAdapter {
             for (Message m: response.Message) {
                 if (m.Id == message.ParrentMessage) {
                     mParent = m;
+                    break;
                 }
             }
-            mParentAuthor = findUserAlias(mParent.Author);
+            if (mParent.Author != userId) {
+                mParentAuthor = findUserAlias(mParent.Author);
+            }
         }
 
-        LinearLayout viewIt =
-                (LinearLayout) inflater.inflate(idLayout, viewGroup, false);
+        RelativeLayout viewIt =
+                (RelativeLayout) inflater.inflate(idLayout, viewGroup, false);
         viewIt.setTag(message.Id);
 
         if (!isAuthor) {
@@ -133,7 +145,10 @@ public class AdapterListMessage extends BaseAdapter {
         v.setTag(message.Date);
 
         if (isAuthor && mStatus != null) {
-            ((ImageView) v.findViewById(R.id.message_status)).setImageResource(mStatus);
+            ImageView vi = (ImageView) viewIt.findViewById(R.id.message_status);
+            if (vi != null) {
+                vi.setImageResource(mStatus);
+            }
         }
 
         if (mParent != null) {
@@ -141,7 +156,9 @@ public class AdapterListMessage extends BaseAdapter {
                 ((TextView) viewIt.findViewById(R.id.message_parent_user)).setText(mParentAuthor);
             }
             ((TextView) viewIt.findViewById(R.id.message_parent_text)).setText(mParent.Message);
+            ((LinearLayout) viewIt.findViewById(R.id.message_parent_container)).setVisibility(View.VISIBLE);
         }
+        ((TextView) viewIt.findViewById(R.id.message_date)).setText(message.Date);
 
         return viewIt;
     }

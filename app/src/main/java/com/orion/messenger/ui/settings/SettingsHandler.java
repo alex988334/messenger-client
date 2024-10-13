@@ -40,9 +40,9 @@ public class SettingsHandler {
         } catch (
                 FileNotFoundException e) {                                                         //  отлавливаем исключения ошибки поиска файла и ошибок ввода вывода
             e.printStackTrace();
-            Log.d("GRADINAS", "ERROR 721782626: SETTINGS ФАЙЛ не найден");
+            Log.d("GRADINAS", "ERROR Settings: SETTINGS ФАЙЛ не найден");
         } catch (IOException e) {
-            Log.d("GRADINAS", "ERROR 2552978: SETTINGS ОШИБКА ВВОДА ВЫВОДА");
+            Log.d("GRADINAS", "ERROR Settings: SETTINGS ОШИБКА ВВОДА ВЫВОДА");
         }
     }
 
@@ -54,7 +54,7 @@ public class SettingsHandler {
         ChatHandlerProperty settings = new ChatHandlerProperty();
 
         if (!file.exists()) {
-            Log.d("GRADINAS", "ERROR 852262: ФАЙЛ НАСТРОЕК НЕ НАЙДЕН");
+            Log.d("GRADINAS", "ERROR Settings: ФАЙЛ НАСТРОЕК НЕ НАЙДЕН");
             return settings;
         }
 
@@ -69,13 +69,15 @@ public class SettingsHandler {
             bufferedReader.close();
             line = stringBuilder.toString();
 
+            Log.e("", "SETTINGS read => " + line);
+
             Type type = new TypeToken<ChatHandlerProperty>(){}.getType();
             settings = new Gson().fromJson(line, type);
-
+            Log.e("", "READ SETTINGS => "+ line);
         } catch (FileNotFoundException ex) {
-            Log.d("GRADINAS", "ERROR 374636248: файл не найден");
+            Log.d("", "ERROR Settings: файл не найден");
         } catch (IOException ex) {
-            Log.d("GRADINAS", "ERROR 772958: ОШИБКА ЧТЕНИЯ ФАЙЛА - iput output");
+            Log.d("", "ERROR Settings: ОШИБКА ЧТЕНИЯ ФАЙЛА - iput output");
         }
 
         return settings;

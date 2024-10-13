@@ -13,4 +13,19 @@ public class UserPhone extends Model{
     public String toString() {
         return "{\"UserId\":"+UserId+",\"Phone\":\""+Phone+"\"," + super.toString() + "}";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof UserPhone)) {
+            return false;
+        }
+
+        UserPhone m = (UserPhone) object;
+        if (UserId != 0 && Phone != null && m.Phone != null
+                && !Phone.equals("") && m.UserId == UserId && m.Phone.equals(Phone)) {
+            return true;
+        }
+
+        return false;
+    }
 }

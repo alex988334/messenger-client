@@ -1,7 +1,5 @@
 package com.orion.messenger.ui.settings;
 
-import android.content.Context;
-
 import com.orion.messenger.ui.chat.ChatHandlerProperty;
 
 import junit.framework.TestCase;
@@ -16,8 +14,7 @@ public class SettingsHandlerTest extends TestCase {
         ChatHandlerProperty settings = new ChatHandlerProperty();
         settings.alias = "Mad Max";
         settings.login = "Max";
-        settings.currentChat = 2;
-        settings.currentMessage = 20L;
+       // settings.currentChatId = 2;
         settings.userId = 1;
         settings.password = "albatros";
         settings.authKey = "qWretyuiioppppwew";

@@ -5,11 +5,41 @@ import androidx.lifecycle.ViewModel;
 
 public class RegistrationViewModel extends ViewModel {
 
-    public MutableLiveData<String> login;
-    public MutableLiveData<String> alias;
-    public MutableLiveData<String> email;
-    public MutableLiveData<String> password;
-    public MutableLiveData<String> password1;
+    private MutableLiveData<String> login;
+    private MutableLiveData<String> alias;
+    private MutableLiveData<String> email;
+    private MutableLiveData<String> password;
 
-    public RegistrationViewModel(){}
+
+    public RegistrationViewModel(){
+        login = new MutableLiveData<>("");
+        alias = new MutableLiveData<>("");
+        email = new MutableLiveData<>("");
+        password = new MutableLiveData<>("");
+    }
+
+    public String getLogin() {
+        return login.getValue();
+    }
+    public void setLogin(String login) {
+        this.login.setValue(login);
+    }
+    public String getAlias() {
+        return alias.getValue();
+    }
+    public void setAlias(String alias) {
+        this.alias.setValue(alias);
+    }
+    public String getEmail() {
+        return email.getValue();
+    }
+    public void setEmail(String email) {
+        this.email.setValue(email);
+    }
+    public String getPassword() {
+        return password.getValue();
+    }
+    public void setPassword(String password) {
+        this.password.setValue(password);
+    }
 }

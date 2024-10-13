@@ -13,10 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.orion.messenger.R;
+import com.orion.messenger.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel mViewModel;
+    private FragmentSettingsBinding binding;
+
+    public static final int ID = 15;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -35,4 +39,9 @@ public class SettingsFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

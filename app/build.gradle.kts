@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.java.websocket)
     implementation(libs.gson)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.logging.interceptor)
     testImplementation(libs.junit)
     testImplementation(libs.testng)
 }

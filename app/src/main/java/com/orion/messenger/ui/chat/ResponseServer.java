@@ -11,68 +11,154 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ResponseServer {
 
-    public static final int OP_AUTORIZATE             = 100;
-    public static final int OP_STATUS_MESSAGE         = 101;
-    public static final int OP_NEW_MESSAGE            = 103;
-    public static final int OP_LIST_USERS             = 105;
-    public static final int OP_CREATE_NEW_CHAT        = 106;
-    public static final int OP_WRITEN                 = 107;
-    public static final int OP_SYSTEM                 = 108;
-    public static final int OP_SEARCH_USER            = 109;
-    public static final int OP_GET_CHATS              = 110;
-    public static final int OP_LIST_PREVIOUS_MESSAGES = 111;
-    public static final int OP_LIST_NEXT_MESSAGES     = 112;
-    public static final int OP_EXIT_CHAT              = 113;
-    public static final int OP_REMOVE_USER            = 114;
-    public static final int OP_ADD_USER               = 115;
-    public static final int OP_REMOVE_CHAT            = 116;
-    public static final int OP_BLOCK_USERS            = 117;
-    public static final int OP_UNLOOCK_USERS          = 118;
-    public static final int OP_BLACK_LIST_USERS       = 119;
-    public static final int OP_GET_FILE               = 120;
-    public static final int OP_MY_DATA                = 122;
-    public static final int OP_REGISTRATION           = 123;
-
-    public StatusRequest Status;
-    public Chat[] Chat;
-    public ChatUser[] ChatUser;
-    public Message[] Message;
-    public MessageStatus[] MessageStatus;
-    public User[] User;
-    public BlackList[] BlackList;
-    public UserPhone[] UserPhone;
-
-   /* public static ResponseServer mergeResponses(ResponseServer r1, ResponseServer r2){
-
-        ResponseServer rez = new ResponseServer();
-        int total = 0;
-        if (r1.Chat != null)
-        rez.Chat = new Chat[total];
-
-
-    }*/
+    public StatusRequest Status = new StatusRequest();
+    public List<Chat> Chat = new ArrayList<>();
+    public List<ChatUser> ChatUser = new ArrayList<>();
+    public List<Message> Message = new ArrayList<>();
+    public List<MessageStatus> MessageStatus = new ArrayList<>();
+    public List<User> User = new ArrayList<>();
+    public List<BlackList> BlackList = new ArrayList<>();
+    public List<UserPhone> UserPhone = new ArrayList<>();
 
     public ResponseServer(){
-      /*  Status = new StatusRequest();
-        Chat = new Chat[0];
-        ChatUser = new ChatUser[0];
-        Message = new Message[0];
-        MessageStatus = new MessageStatus[0];
-        User = new User[0];
-        BlackList = new BlackList[0];
-        UserPhone = new UserPhone[0];*/
+        Status = new StatusRequest();
+        Chat = new ArrayList<>();
+        ChatUser = new ArrayList<>();
+        Message = new ArrayList<>();
+        MessageStatus = new ArrayList<>();
+        User = new ArrayList<>();
+        BlackList = new ArrayList<>();
+        UserPhone = new ArrayList<>();
     }
 
-   /* public ResponseServer(StatusRequest model, Map<String, List<IModel>> data){
-        this.status = model;
-        this.data = data;
-        if (!data.isEmpty()) {
-            empty = false;
+    public void appendData(ResponseServer r) {
+
+       // Chat.addAll(r.Chat);
+        for (Chat m: r.Chat) {
+            if (!Chat.contains(m)) {
+                Chat.add(m);
+            }
         }
-    }*/
+       // ChatUser.addAll(r.ChatUser);
+        for (ChatUser m: r.ChatUser) {
+            if (!ChatUser.contains(m)) {
+                ChatUser.add(m);
+            }
+        }
+       // Message.addAll(r.Message);
+        for (Message m: r.Message) {
+            if (!Message.contains(m)) {
+                Message.add(m);
+            }
+        }
+     //   MessageStatus.addAll(r.MessageStatus);
+        for (MessageStatus m: r.MessageStatus) {
+            if (!MessageStatus.contains(m)) {
+                MessageStatus.add(m);
+            }
+        }
+    //    User.addAll(r.User);
+        for (User m: r.User) {
+            if (!User.contains(m)) {
+                User.add(m);
+            }
+        }
+       // BlackList.addAll(r.BlackList);
+        for (BlackList m: r.BlackList) {
+            if (!BlackList.contains(m)) {
+                BlackList.add(m);
+            }
+        }
+    //    UserPhone.addAll(r.UserPhone);
+        for (UserPhone m: r.UserPhone) {
+            if (!UserPhone.contains(m)) {
+                UserPhone.add(m);
+            }
+        }
+    }
+
+    public void prependData(ResponseServer r) {
+
+      //  r.Chat.addAll(Chat);
+        for (Chat m: Chat) {
+            if (!r.Chat.contains(m)) {
+                r.Chat.add(m);
+            }
+        }
+      //  r.ChatUser.addAll(ChatUser);
+        for (ChatUser m: ChatUser) {
+            if (!r.ChatUser.contains(m)) {
+                r.ChatUser.add(m);
+            }
+        }
+      //  r.Message.addAll(Message);
+        for (Message m: Message) {
+            if (!r.Message.contains(m)) {
+                r.Message.add(m);
+            }
+        }
+     //   r.MessageStatus.addAll(MessageStatus);
+        for (MessageStatus m: MessageStatus) {
+            if (!r.MessageStatus.contains(m)) {
+                r.MessageStatus.add(m);
+            }
+        }
+       // r.User.addAll(User);
+        for (User m: User) {
+            if (!r.User.contains(m)) {
+                r.User.add(m);
+            }
+        }
+       // r.BlackList.addAll(BlackList);
+        for (BlackList m: BlackList) {
+            if (!r.BlackList.contains(m)) {
+                r.BlackList.add(m);
+            }
+        }
+      //  r.UserPhone.addAll(UserPhone);
+        for (UserPhone m: UserPhone) {
+            if (!r.UserPhone.contains(m)) {
+                r.UserPhone.add(m);
+            }
+        }
+
+        Chat = r.Chat;
+        ChatUser = r.ChatUser;
+        Message = r.Message;
+        MessageStatus = r.MessageStatus;
+        User = r.User;
+        BlackList = r.BlackList;
+        UserPhone = r.UserPhone;
+    }
+
+    public void fillCollectionForNullLinks() {
+
+        if (Chat == null) {
+            Chat = new ArrayList<>();
+        }
+        if (ChatUser == null) {
+            ChatUser = new ArrayList<>();
+        }
+        if (Message == null) {
+            Message = new ArrayList<>();
+        }
+        if (MessageStatus == null) {
+            MessageStatus = new ArrayList<>();
+        }
+        if (User == null) {
+            User = new ArrayList<>();
+        }
+        if (BlackList == null) {
+            BlackList = new ArrayList<>();
+        }
+        if (UserPhone == null) {
+            UserPhone = new ArrayList<>();
+        }
+    }
 
     @NonNull
     @Override

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.message.MessageFragment">
+    tools:context=".ui.message.MessageFragment"
+    android:id="@+id/message_fragment"
+    android:background="@color/grey1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,12 +17,17 @@
             android:orientation="vertical"
             android:padding="5dp"
             android:id="@+id/messenger_header"
-            android:background="@color/colorPrimary">
+            android:background="@color/grey1"
+            android:paddingVertical="@dimen/padding_external"
+            android:visibility="gone">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/messenger_name_chat"
+                android:id="@+id/messenger_chat_name"
+                android:textAlignment="center"
                 android:textColor="@color/white"
+                android:padding="@dimen/padding_external"
+                android:text="Werty"
                 android:textStyle="bold"
                 android:textSize="8pt"/>
         </LinearLayout>
@@ -34,30 +41,34 @@
             android:textSize="8pt"
             android:textStyle="bold|italic"
             android:translationZ="1dp"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:background="@color/grey1"
+            android:padding="@dimen/padding_left"
+            android:textColor="@color/white"/>
 
-        <!--android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/messenger_swipe"
-            ></android.support.v4.widget.SwipeRefreshLayout-->
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/spisok"
-            android:layout_margin="@dimen/padding_external"
-            android:layout_above="@+id/messenger_write"
+            android:id="@+id/message_refresh"
             android:layout_below="@+id/messenger_header"
-            android:dividerHeight="0px"
-            android:divider="@color/white">
-        </ListView>
+            android:layout_above="@+id/messenger_footer_container">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/spisok"
+                android:layout_margin="@dimen/padding_external"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:layout_above="@+id/messenger_write"
+                android:layout_below="@+id/messenger_header"
+                android:background="@color/grey1">
+            </ListView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/messenger_write"
+            android:id="@+id/messenger_footer_container"
             android:layout_above="@+id/messenger_footer">
         </LinearLayout>
 
@@ -67,15 +78,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/messenger_footer"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary">
+            android:background="@color/black"
+            android:padding="@dimen/padding_left">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/edit_message"
                 android:textColor="@color/white"
-                android:background="@color/colorPrimary"
-                android:textSize="11pt"
+                android:background="@color/grey1"
+                android:textSize="10pt"
+                android:hint="Write new message"
+                android:textColorHint="@color/white"
+                android:padding="@dimen/padding_left"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"/>
 
             <ImageButton
@@ -83,11 +99,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/attach_file"
-                android:background="@color/colorPrimary"
+                android:background="@color/grey1"
                 android:layout_weight="3"
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:layout_marginTop="3dp"/>
 
             <ImageButton
                 android:layout_gravity="center"
@@ -95,10 +112,11 @@
                 android:layout_height="match_parent"
                 android:id="@+id/sound_message"
                 android:visibility="gone"
-                android:background="@color/colorPrimary"
+                android:background="@color/grey1"
                 android:layout_weight="3"
                 android:paddingRight="5dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:layout_marginTop="3dp"/>
 
             <ImageButton
                 android:layout_gravity="center"
@@ -106,10 +124,12 @@
                 android:layout_height="match_parent"
                 android:id="@+id/send_message"
                 android:src="@android:drawable/ic_menu_send"
-                android:background="@color/colorPrimary"
+                android:layout_marginLeft="3dp"
+                android:background="@color/grey1"
                 android:layout_weight="5"
                 android:paddingRight="10dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

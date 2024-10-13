@@ -24,4 +24,18 @@ public class User extends Model{
                 +"\",\"Email\":\""+Email+"\",\"Status\":"+Status+",\"CreateAt\":"+CreateAt
                 +",\"UpdateAt\":"+UpdateAt +"," + super.toString() + "}";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof User)) {
+            return false;
+        }
+
+        User m = (User) object;
+        if (Id != 0 && m.Id == Id) {
+            return true;
+        }
+
+        return false;
+    }
 }

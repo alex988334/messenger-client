@@ -1,5 +1,6 @@
 package com.orion.messenger.ui.chat;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,8 @@ public class BufferWS implements IBufferWS{
 
     private List<ResponseServer> incomingData;                                                         //  тег для отладки в логах
     private List<Map<String, byte[]>> sendData;
+
+    private List<File> sendFile;
 
     private boolean isAvailableIncomingData;
     private boolean isAvailableSendData;
@@ -21,6 +24,7 @@ public class BufferWS implements IBufferWS{
         sendData = new ArrayList<>();
         incomingData = new ArrayList<>();
         this.chatHandler = chatHandler;
+        this.sendFile = new ArrayList<>();
     }
 
     @Override
@@ -65,8 +69,16 @@ public class BufferWS implements IBufferWS{
         sendData.add(data);
         isAvailableSendData = true;
         notifyAll();
+    }
 
+    public synchronized File getSendFile() {
 
+        if (sendFile.size() > 0) {
+            File f = sendFile.get(0);
+            sendFile.remove(0);
+            return f;
+        }
+        return null;
     }
 
     @Override
